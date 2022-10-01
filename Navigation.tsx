@@ -4,6 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import Inicio from './screens/Inicio';
 import Login from './screens/Login';
 
+import HeaderInicio from './components/HeaderInicio';
+
 const Drawer = createDrawerNavigator();
 
 function MyTabs() {
