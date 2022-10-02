@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import {Button} from 'react-native-ui-lib'
 import React from 'react'
 
 import {DrawerNavigationProp} from '@react-navigation/drawer';
@@ -12,10 +13,11 @@ const Inicio = ({navigation}: {navigation : DrawerNavigationProp<any>}) => {
     <SafeAreaView style={{flex: 1}}>
       <HeaderInicio navigation={navigation}/>
       <View style={{flex:10}}>
+        {/* Aqui Deben De Ir Las Tarjetas De Productos Agregados */}
         <Text>Inicio</Text>
         <TouchableOpacity ><Text>a</Text></TouchableOpacity>
       </View>
-      <View style={{flex: 2, backgroundColor: 'blue'}}>
+      <View style={{flex: 2}}>
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'gray'}}>
           <View style={{flexDirection: 'row'}}>
             <Text>Num Productos: </Text>
@@ -27,8 +29,12 @@ const Inicio = ({navigation}: {navigation : DrawerNavigationProp<any>}) => {
           </View>
         </View>
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
-          <Text>PAGAR...</Text>
-          <Text>Cancelar</Text>
+          <View style={{flex: 2, paddingHorizontal: 2}}>
+            <Button label="Pagar" $backgroundDark />
+          </View>
+          <View style={{flex: 1, paddingHorizontal: 3}}>
+            <Button label="Cancelar"  style={{backgroundColor: 'red'}}/>
+          </View>
         </View>
       </View>
     </SafeAreaView>
