@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import {Button, GridList, Card, Image} from 'react-native-ui-lib'
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import {Button, GridList, Card, Image as I} from 'react-native-ui-lib'
 import React from 'react'
 
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import HeaderInicio from '../components/HeaderInicio';
 import { SafeAreaView } from 'react-native-safe-area-context'
+import CartasProducto from '../components/CartasProducto'
 
 type info = {
   id: number,
@@ -31,7 +32,7 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
       <HeaderInicio navigation={navigation}/>
       <View style={{flex:10}}>
         {/* Aqui Deben De Ir Las Tarjetas De Productos Agregados */}
-        <GridList numColumns={2} data={[{id:1},{id:2},{id:3}]} renderItem={(e) => <ItemCard key={e.index} id={e.index} />} />
+        <GridList listPadding={20} numColumns={2} data={[{id:1},{id:2},{id:3},{id:4},{id: 200}]} renderItem={CartasProducto} />
       </View>
       <View style={{flex: 2}}>
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'gray'}}>
