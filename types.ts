@@ -17,3 +17,12 @@ export interface TiendaProductosProvider {
     insertarProducto: (producto: Producto) => void;
     eliminarProducto: (producto: Producto) => void;
 }
+export interface LoginContext {
+    sesionIniciada: boolean;
+    cargando: boolean;
+    usuario: null | null;
+
+}
+export interface LogginProvider {
+
+}
