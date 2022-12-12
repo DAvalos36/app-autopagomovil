@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { LoaderScreen, Colors } from 'react-native-ui-lib';
 import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/drawer'
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -6,15 +8,22 @@ import Login from './screens/Login';
 import Registro from './screens/Registro';
 
 import HeaderInicio from './components/HeaderInicio';
+import { LoggingContext } from './context/LogginContext';
 
 const Drawer = createDrawerNavigator();
 
 function MyTabs() {
+  const loginContext = useContext(LoggingContext)
+
+  if (loginContext?.cargando) {
+    return <LoaderScreen message={'Cargando...'} color={Colors.grey40} />;
+  }
+
   return (
     <Drawer.Navigator
       screenOptions={{drawerPosition: 'right'}}
     >
-    { !false ? (
+    { !loginContext?.sesionIniciada ? (
     <>
       <Drawer.Screen name="Login" component={Login}
         options={{headerShown: false}}
