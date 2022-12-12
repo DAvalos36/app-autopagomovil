@@ -1,3 +1,4 @@
+import type { User } from '@supabase/supabase-js'
 export interface Producto {
     codigo: string;
     nombre: string;
@@ -20,7 +21,7 @@ export interface TiendaProductosProvider {
 export interface LoginContext {
     sesionIniciada: boolean;
     cargando: boolean;
-    usuario: null | null;
+    usuario: User | null;
 
 }
 export interface LogginProvider {
