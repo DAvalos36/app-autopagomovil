@@ -10,6 +10,25 @@ import { TiendaContext } from '../context/TiendaContext'
 const IngresarTienda = () => {
   const tiendaContext = useContext(TiendaContext)
 
+  const solicitarTienda = async (id: string) => {
+    const { data, error } = await supabase
+      .from('tiendas')
+      .select('*')
+      .eq('id', id)
+    if (error) {
+      alert('ocurrio un error')
+      console.log(error)
+    }
+    else {
+      if (data?.length == 0) {
+        alert('No se encontro la tienda')
+      }
+      else {
+        tiendaContext?.setTienda(data[0].id)
+      }
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
 
