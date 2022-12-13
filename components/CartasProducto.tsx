@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native'
 import { Text, Image, Badge } from 'react-native-ui-lib'
 import React from 'react'
+import { COLORES } from '../Colores'
 
 type Props = {}
 
@@ -10,10 +11,10 @@ const CartasProducto = ({item, index}: {item: {id: number}, index: number}) => {
       <View style={styles.container}>
         <Text text60>Titulo</Text>
         <Image style={styles.imgCar} source={{uri: 'https://assets.stickpng.com/images/58718a4a7b7f6103e35c6ce4.png'}} />
-        <Badge label={`$ ${item.id}`} backgroundColor="blue" />
+        <Badge label={`$ ${item.id}`} backgroundColor={COLORES.botonSecundario} />
       </View>
       
-      <Badge label='11' backgroundColor="blue" containerStyle={{ position: 'absolute', top: -4, right: -4 }} />
+      <Badge label='11' backgroundColor={COLORES.botonSecundario} containerStyle={{ position: 'absolute', top: -4, right: -4 }} />
     </View>
   )
 }
@@ -24,8 +25,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: 'red',
-    borderColor: 'black',
+    backgroundColor: COLORES.tarjetaProducto,
+    borderColor: '#2c9fa8',
     borderWidth: 1,
     borderRadius: 10,
     paddingVertical: 5
