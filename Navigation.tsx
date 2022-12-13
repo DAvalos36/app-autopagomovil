@@ -6,14 +6,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import Inicio from './screens/Inicio';
 import Login from './screens/Login';
 import Registro from './screens/Registro';
+import IngresarTienda from './screens/IngresarTienda';
 
 import HeaderInicio from './components/HeaderInicio';
 import { LoggingContext } from './context/LogginContext';
+import { TiendaContext } from './context/TiendaContext';
 
 const Drawer = createDrawerNavigator();
 
 function MyTabs() {
   const loginContext = useContext(LoggingContext)
+  const tiendaContext = useContext(TiendaContext)
 
   if (loginContext?.cargando) {
     return <LoaderScreen message={'Cargando...'} color={Colors.grey40} />;
@@ -34,9 +37,15 @@ function MyTabs() {
     </>
     ) : (
     <>
+      {tiendaContext?.tiendaId != '' ? (
       <Drawer.Screen name="Home" component={Inicio} 
         options={{headerShown: false}}
       />
+      ) : (
+      <Drawer.Screen name="Home" component={IngresarTienda} 
+        options={{headerShown: false}}
+      />
+      )}
       <Drawer.Screen name="Notifications" component={Login} />
       </>
     )}
