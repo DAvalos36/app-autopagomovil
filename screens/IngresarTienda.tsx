@@ -3,6 +3,7 @@ import { Button, Text, Incubator, Colors, Image } from 'react-native-ui-lib'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useState, useContext } from 'react'
 import { supabase } from '../supabase'
+import { SvgUri } from 'react-native-svg'
 
 import { TiendaContext } from '../context/TiendaContext'
 
@@ -31,9 +32,15 @@ const IngresarTienda = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={require('../assets/EscanearTienda.png')}  />
+      <SvgUri
+        uri='https://dthbdxcuhfeitijisuta.supabase.co/storage/v1/object/public/productos/EscanearTienda.svg'
+        width='80%'
+        height='80%'
+        onPress={() => void tiendaContext?.setTienda('idk')}
 
-      <Button label='Entrar' onPress={() => void tiendaContext?.setTienda('idk')} />
+      />
+
+      {/* <Button label='Entrar' onPress={} /> */}
     </SafeAreaView>
   )
 }
