@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { supabase } from '../supabase';
 
-import { LoginContext } from '../types';
+import { LoginContext, ProductoTienda } from '../types';
 import type { User } from '@supabase/supabase-js'
 
 export const LoggingContext = createContext<LoginContext | null>(null)
@@ -10,6 +10,29 @@ export function UserContextProvide({ children }: { children: ReactNode | ReactNo
   const [cargando, setCargando] = useState<boolean>(true)
   const [sesionIniciada, setSesionIniciada] = useState(false)
   const [usuario, setUsuario] = useState<User | null>(null)
+
+  const pruebaJoin = async () => {
+    let { data: tienda_productos, error } = await supabase
+    .from('tienda_productos')
+    .select(`
+      id,
+      precio,
+      existe,
+      productos_info (
+        codigo,
+        nombre,
+        descripcion,
+        link_img
+      )
+    `).eq('tienda', '5bece0fa-01cf-4e52-8bf7-b8a28b588a02')
+    .eq('producto', '7501006559316')
+    
+    const info = tienda_productos as ProductoTienda[]
+    console.log("Error: ", error)
+    console.log("===Tienda_productos uwu===", info)
+
+
+  }
 
   const peticion = async () => {
 
@@ -34,7 +57,7 @@ export function UserContextProvide({ children }: { children: ReactNode | ReactNo
   }
 
   useEffect(() => {
-    // void peticion()
+    // void pruebaJoin()
     cargarInfoUsuario()
 
     supabase.auth.onAuthStateChange((event, session) => {
