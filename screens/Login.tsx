@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native'
-import { Button, Text, Incubator, Colors } from 'react-native-ui-lib'
+import { Button, Text, Incubator, Colors, Image } from 'react-native-ui-lib'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useState } from 'react'
 import { supabase } from '../supabase'
 import { VerifyOtpParams } from '@supabase/supabase-js'
+import { COLORES } from '../Colores'
 
 
 const Login = () => {
@@ -52,10 +53,13 @@ const Login = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Image source={require('../assets/LogoFI.png')} style={{ width:70, height: 79 }} />
       <Incubator.TextField
         editable={!esperando}
         value={numCel}
         placeholder={'Numero telefonico'}
+        placeholderTextColor={COLORES.textoSecundario}
+        labelColor={COLORES.textoSecundario}
         floatingPlaceholder
         onChangeText={(t) => setNumCel(t)}
         enableErrors
@@ -69,6 +73,8 @@ const Login = () => {
       <Incubator.TextField
         value={codigo}
         placeholder={'Codigo de verificacion'}
+        placeholderTextColor={COLORES.textoSecundario}
+        labelColor={COLORES.textoSecundario}
         floatingPlaceholder
         onChangeText={(t) => setCodigo(t)}
         enableErrors
@@ -79,7 +85,7 @@ const Login = () => {
         style={styles.inputs}
       />
   }
-      <Button disabled={cargando} label='Enviar' disabledBackgroundColor={Colors.$backgroundDisabled} activeBackgroundColor={Colors.$backgroundDarkActive} onPress={() => void login()} />
+      <Button outline outlineColor={COLORES.botonPrimario} outlineWidth={2} disabled={cargando} label='Enviar' disabledBackgroundColor={Colors.$backgroundDisabled} activeBackgroundColor={Colors.$backgroundDarkActive} onPress={() => void login()} />
     </SafeAreaView>
   )
 }
@@ -87,11 +93,13 @@ export default Login
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: 20,
   },
   inputs: {
-    borderBottomColor: Colors.black,
-    borderBottomWidth: 1,
+    borderBottomColor: COLORES.botonPrimario,
+    borderBottomWidth: 2,
     // marginBottom: 10,
   }
 })
