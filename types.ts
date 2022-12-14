@@ -1,22 +1,27 @@
 import type { User } from '@supabase/supabase-js'
-export interface Producto {
-    codigo: string;
-    nombre: string;
-    descripcion: string;
-    precio: number;
-    link_img: string;
-    cantidad?: number;
+
+export interface ProductoInfo {
+    codigo: string
+    descripcion: string
+    link_img: string
+    nombre: string
+}
+export interface ProductoTienda {
+    existe: boolean,
+    id: number,
+    precio: number,
+    productos_info: ProductoInfo,
 }
 
 export interface TiendaProductosProvider {
     tiendaId: string;
-    productos: Producto[];
+    productos: ProductoTienda[];
 
     setTienda: (tiendaId: string) => void;
     salirtienda: () => void;
 
-    insertarProducto: (producto: Producto) => void;
-    eliminarProducto: (producto: Producto) => void;
+    insertarProducto: (producto: ProductoTienda) => void;
+    eliminarProducto: (producto: ProductoTienda) => void;
 }
 export interface LoginContext {
     sesionIniciada: boolean;

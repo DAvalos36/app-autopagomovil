@@ -1,10 +1,10 @@
 import { createContext, useState } from 'react'
-import { Producto, TiendaProductosProvider } from '../types'
+import { ProductoTienda, TiendaProductosProvider } from '../types'
 
 export const TiendaContext = createContext<TiendaProductosProvider | null>(null)
 
 export const DataProviderTienda = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
-  const [productos, setProductos] = useState<Producto[]>([])
+  const [productos, setProductos] = useState<ProductoTienda[]>([])
   const [tiendaId, setTiendaId] = useState<string>('')
 
   const setTienda = (tiendaId: string): void => {
@@ -14,11 +14,11 @@ export const DataProviderTienda = ({ children }: { children: JSX.Element | JSX.E
     setTiendaId('')
   }
 
-  const insertarProducto = (producto: Producto) => {
+  const insertarProducto = (producto: ProductoTienda) => {
     setProductos([...productos, producto])
   }
-  const eliminarProducto = (producto: Producto) => {
-    setProductos(productos.filter((p) => p.codigo !== producto.codigo))
+  const eliminarProducto = (producto: ProductoTienda) => {
+    setProductos(productos.filter((p) => p.productos_info.codigo !== producto.productos_info.codigo))
   }
 
 
