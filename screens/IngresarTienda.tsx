@@ -29,7 +29,7 @@ const IngresarTienda = () => {
 
   const escaneo = ({ type, data }: BarCodeScannerResult) => {
     setEscanear(false)
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    solicitarTienda(data)
   };
 
   const solicitarTienda = async (id: string) => {
