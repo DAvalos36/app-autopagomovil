@@ -1,12 +1,15 @@
 import { StyleSheet, View, ImageBackground } from 'react-native'
 import {Button, GridList, Card, Text} from 'react-native-ui-lib'
-import React from 'react'
+import { BarCodeScanner, BarCodeScannerResult, requestPermissionsAsync } from 'expo-barcode-scanner';
+import React, { useState, useEffect, useContext } from 'react'
 
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import HeaderInicio from '../components/HeaderInicio';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CartasProducto from '../components/CartasProducto'
 import { COLORES } from '../Colores';
+import PermisoQR from './PermisoQR';
+import PantallaCamaraQR from './PantallaCamaraQR';
 
 type info = {
   id: number,
@@ -15,6 +18,33 @@ type info = {
 
 
 const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
+  const [permiso, setPermiso] = useState(false)
+  const [escanear, setEscanear] = useState(false)
+
+  useEffect(() => {
+    void solicitarPermiso()
+  }, [])
+  
+
+  const solicitarPermiso = async () => {
+    const { status } = await requestPermissionsAsync()
+    if(status === 'granted'){
+      setPermiso(true)
+    }
+  }
+
+  const resultadoEscaneo = ({ type, data }: BarCodeScannerResult) => {
+    setEscanear(false)
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
+
+  if(!permiso){
+    return <PermisoQR solicitarPermiso={solicitarPermiso} />
+  }
+
+  if (escanear){
+    return <PantallaCamaraQR texto='Escanea codigo de barras del producto' contextoEscanear={setEscanear} resultado={resultadoEscaneo} />
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>

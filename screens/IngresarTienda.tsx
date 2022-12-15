@@ -1,15 +1,36 @@
 import { StyleSheet } from 'react-native'
-import { Button, Text, Incubator, Colors, Image } from 'react-native-ui-lib'
+import { Colors } from 'react-native-ui-lib'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { supabase } from '../supabase'
 import { SvgUri } from 'react-native-svg'
+import { BarCodeScannerResult, requestPermissionsAsync } from 'expo-barcode-scanner';
 
 import { TiendaContext } from '../context/TiendaContext'
+import PermisoQR from './PermisoQR'
+import PantallaCamaraQR from './PantallaCamaraQR'
 
 
 const IngresarTienda = () => {
   const tiendaContext = useContext(TiendaContext)
+  const [escanear, setEscanear] = useState(false)
+  const [permiso, setPermiso] = useState(false)
+
+  useEffect(() => {
+    void solicitarPermiso()
+  }, [])
+
+  const solicitarPermiso = async () => {
+    const { status } = await requestPermissionsAsync()
+    if(status === 'granted'){
+      setPermiso(true)
+    }
+  }
+
+  const escaneo = ({ type, data }: BarCodeScannerResult) => {
+    setEscanear(false)
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
 
   const solicitarTienda = async (id: string) => {
     const { data, error } = await supabase
@@ -30,13 +51,20 @@ const IngresarTienda = () => {
     }
   }
 
+  if(!permiso){
+    return <PermisoQR solicitarPermiso={solicitarPermiso} />
+  }
+
+  if (escanear){
+    return <PantallaCamaraQR texto='Escanea el qr de la tienda' contextoEscanear={setEscanear} resultado={escaneo} />
+  }
   return (
     <SafeAreaView style={styles.container}>
       <SvgUri
         uri='https://dthbdxcuhfeitijisuta.supabase.co/storage/v1/object/public/productos/EscanearTienda.svg'
         width='80%'
         height='80%'
-        onPress={() => void tiendaContext?.setTienda('idk')}
+        onPress={() => setEscanear(true)}
 
       />
 
