@@ -21,9 +21,13 @@ export const DataProviderTienda = ({ children }: { children: JSX.Element | JSX.E
     setProductos(productos.filter((p) => p.productos_info.codigo !== producto.productos_info.codigo))
   }
 
+  const eliminarTodosProductos = () => {
+    setProductos([])
+  }
+
 
   return (
-    <TiendaContext.Provider value={{ productos, insertarProducto, eliminarProducto, setTienda, salirtienda, tiendaId }}>
+    <TiendaContext.Provider value={{ productos, insertarProducto, eliminarProducto, setTienda, salirtienda, eliminarTodosProductos, tiendaId }}>
       {children}
     </TiendaContext.Provider>
   )

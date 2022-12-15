@@ -11,6 +11,9 @@ import CartasProducto from '../components/CartasProducto'
 import { COLORES } from '../Colores';
 import PermisoQR from './PermisoQR';
 import PantallaCamaraQR from './PantallaCamaraQR';
+import { supabase } from '../supabase';
+
+import { ProductoTienda } from '../types';
 
 import { TiendaContext } from '../context/TiendaContext'
 
@@ -40,8 +43,47 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
 
   const resultadoEscaneo = ({ type, data }: BarCodeScannerResult) => {
     setEscanear(false)
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    peticionProducto(data)
   };
+
+
+  const peticionProducto = async (idProducto: string) => {
+    let { data: tienda_productos, error } = await supabase
+    .from('tienda_productos')
+    .select(`
+      id,
+      precio,
+      existe,
+      productos_info (
+        codigo,
+        nombre,
+        descripcion,
+        link_img
+      )
+    `).eq('tienda', tiendaContext?.tiendaId)
+    .eq('producto', idProducto)
+    
+    const info = tienda_productos as ProductoTienda[]
+
+    if (info.length === 1){
+      info[0].cantidad = 1
+      tiendaContext?.insertarProducto(info[0])
+    }
+    else {
+      alert('No se encontro el producto; intente de nuevo')
+    }
+
+    console.log("Error: ", error)
+    console.log("===Tienda_productos uwu===", info)
+
+
+  }
+
+
+  const cancelar = () => {
+    tiendaContext?.eliminarTodosProductos()
+    void tiendaContext?.setTienda('')
+  }
 
   if(!permiso){
     return <PermisoQR solicitarPermiso={solicitarPermiso} />
@@ -56,13 +98,13 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
       <ImageBackground source={require('../assets/bgInicio.png')}  style={{flex:10}}>
         <HeaderInicio navigation={navigation} contextoEscanear={setEscanear}/>
         {/* Aqui Deben De Ir Las Tarjetas De Productos Agregados */}
-        <GridList style={{flex: 1}} listPadding={20} numColumns={2} data={[{id:1},{id:2},{id:3},{id:4},{id: 200}, {id: 201}, {id: 203}  ]} renderItem={CartasProducto} />
+        <GridList style={{flex: 1}} listPadding={20} numColumns={2} data={tiendaContext?.productos} renderItem={CartasProducto} />
       </ImageBackground>
       <View style={{flex: 2}}>
         <View style={ styles.contenedorTexto }>
           <View style={{alignItems: 'center'}}>
             <Text text60 color={COLORES.textoPrimario}>Num Productos: </Text>
-            <Text text60 color='black'>3</Text>
+            <Text text60 color='black'>{tiendaContext?.productos.length}</Text>
           </View>
           <View style={{alignItems: 'center'}}>
             <Text text60 color={COLORES.textoPrimario}>Total: </Text>
@@ -75,7 +117,7 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
             <Button label="Pagar" borderRadius={5} backgroundColor={COLORES.botonPrimario} />
           </View>
           <View style={{flex: 1, paddingHorizontal: 3}}>
-            <Button label="Cancelar"  borderRadius={5} backgroundColor={COLORES.botonSecundario} onPress={() => void tiendaContext?.setTienda('') }  />
+            <Button label="Cancelar"  borderRadius={5} backgroundColor={COLORES.botonSecundario} onPress={ cancelar }  />
           </View>
         </View>
       </View>

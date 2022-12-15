@@ -11,6 +11,7 @@ export interface ProductoTienda {
     id: number,
     precio: number,
     productos_info: ProductoInfo,
+    cantidad?: number
 }
 
 export interface TiendaProductosProvider {
@@ -22,6 +23,8 @@ export interface TiendaProductosProvider {
 
     insertarProducto: (producto: ProductoTienda) => void;
     eliminarProducto: (producto: ProductoTienda) => void;
+
+    eliminarTodosProductos: () => void;
 }
 export interface LoginContext {
     sesionIniciada: boolean;

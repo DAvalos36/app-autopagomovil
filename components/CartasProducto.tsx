@@ -3,18 +3,20 @@ import { Text, Image, Badge } from 'react-native-ui-lib'
 import React from 'react'
 import { COLORES } from '../Colores'
 
+import { ProductoTienda } from '../types'
+
 type Props = {}
 
-const CartasProducto = ({item, index}: {item: {id: number}, index: number}) => {
+const CartasProducto = ({item, index}: {item: ProductoTienda, index: number}) => {
   return (
     <View>
       <View style={styles.container}>
-        <Text text60>Titulo</Text>
-        <Image style={styles.imgCar} source={{uri: 'https://assets.stickpng.com/images/58718a4a7b7f6103e35c6ce4.png'}} />
-        <Badge label={`$ ${item.id}`} backgroundColor={COLORES.botonPrimario} />
+        <Text text60>{item.productos_info.nombre}</Text>
+        <Image style={styles.imgCar} source={{uri: item.productos_info.link_img}} />
+        <Badge label={`$ ${item.precio}`} backgroundColor={COLORES.botonPrimario} />
       </View>
       
-      <Badge label='11' backgroundColor={COLORES.botonPrimario} containerStyle={{ position: 'absolute', top: -4, right: -4 }} />
+      <Badge label={item.cantidad?.toString()} backgroundColor={COLORES.botonPrimario} containerStyle={{ position: 'absolute', top: -4, right: -4 }} />
     </View>
   )
 }
