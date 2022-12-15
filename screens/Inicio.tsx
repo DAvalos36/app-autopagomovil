@@ -2,6 +2,7 @@ import { StyleSheet, View, ImageBackground } from 'react-native'
 import {Button, GridList, Card, Text} from 'react-native-ui-lib'
 import { BarCodeScanner, BarCodeScannerResult, requestPermissionsAsync } from 'expo-barcode-scanner';
 import React, { useState, useEffect, useContext } from 'react'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import HeaderInicio from '../components/HeaderInicio';
@@ -11,6 +12,8 @@ import { COLORES } from '../Colores';
 import PermisoQR from './PermisoQR';
 import PantallaCamaraQR from './PantallaCamaraQR';
 
+import { TiendaContext } from '../context/TiendaContext'
+
 type info = {
   id: number,
   data?: string
@@ -18,6 +21,8 @@ type info = {
 
 
 const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
+  const tiendaContext = useContext(TiendaContext)
+
   const [permiso, setPermiso] = useState(false)
   const [escanear, setEscanear] = useState(false)
 
@@ -49,7 +54,7 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground source={require('../assets/bgInicio.png')}  style={{flex:10}}>
-        <HeaderInicio navigation={navigation}/>
+        <HeaderInicio navigation={navigation} contextoEscanear={setEscanear}/>
         {/* Aqui Deben De Ir Las Tarjetas De Productos Agregados */}
         <GridList style={{flex: 1}} listPadding={20} numColumns={2} data={[{id:1},{id:2},{id:3},{id:4},{id: 200}, {id: 201}, {id: 203}  ]} renderItem={CartasProducto} />
       </ImageBackground>
@@ -70,7 +75,7 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
             <Button label="Pagar" borderRadius={5} backgroundColor={COLORES.botonPrimario} />
           </View>
           <View style={{flex: 1, paddingHorizontal: 3}}>
-            <Button label="Cancelar"  borderRadius={5} backgroundColor={COLORES.botonSecundario} />
+            <Button label="Cancelar"  borderRadius={5} backgroundColor={COLORES.botonSecundario} onPress={() => void tiendaContext?.setTienda('') }  />
           </View>
         </View>
       </View>
