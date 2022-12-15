@@ -28,10 +28,12 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
 
   const [permiso, setPermiso] = useState(false)
   const [escanear, setEscanear] = useState(false)
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
     void solicitarPermiso()
-  }, [])
+    calcularTotal()
+  }, [tiendaContext?.productos])
   
 
   const solicitarPermiso = async () => {
@@ -79,6 +81,13 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
 
   }
 
+  const calcularTotal = () => {
+    let total = 0
+    tiendaContext?.productos.forEach((producto) => {
+      total += producto.precio * producto.cantidad!
+    })
+    setTotal(total)
+  }
 
   const cancelar = () => {
     tiendaContext?.eliminarTodosProductos()
@@ -108,7 +117,7 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
           </View>
           <View style={{alignItems: 'center'}}>
             <Text text60 color={COLORES.textoPrimario}>Total: </Text>
-            <Text text60 color='black'>$20</Text>
+            <Text text60 color='black'>${total.toFixed(2)}</Text>
           </View>
         </View>
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingHorizontal: 20 }}>
