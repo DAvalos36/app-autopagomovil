@@ -10,14 +10,14 @@ import { COLORES } from '../Colores'
 const Login = () => {
   const [cargando, setCargando] = useState<boolean>(false)
   const [esperando, setEsperando] = useState<boolean>(false)
-  const [numCel, setNumCel] = useState<string>('')
+  const [numCel, setNumCel] = useState<string>('+52')
   const [codigo, setCodigo] = useState<string>('')
 
   const login = async () => {
     setCargando(true)
     if (esperando){
       if (codigo.length == 6) {
-        const { data, error } = await supabase.auth.verifyOtp({phone: numCel, token: codigo} as VerifyOtpParams)
+        const { data, error } = await supabase.auth.verifyOtp({phone: numCel, token: codigo, type: 'sms'})
         if (error) {
           alert('ocurrio un error')
           console.log(error)
@@ -31,18 +31,18 @@ const Login = () => {
       }
     }
     else {
-      if (numCel.length == 10) {
-        setNumCel(`+52${numCel}`)
+      if (numCel.length == 13) {
+        // setNumCel(`+52${numCel}`)
         alert(numCel)
-        // const { data, error } = await supabase.auth.signInWithOtp({ phone: numCel })
-        // if (error) {
-        //   alert('ocurrio un error')
-        //   console.log(error)
-        // }
-        // else {
-        //   alert('Se envio el codigo')
-        //   setEsperando(true)
-        // }
+        const { data, error } = await supabase.auth.signInWithOtp({ phone: numCel })
+        if (error) {
+          alert('ocurrio un error')
+          console.log(error)
+        }
+        else {
+          alert('Se envio el codigo')
+          setEsperando(true)
+        }
       }
       else {
         alert('El numero de celular debe ser de 10 digitos')
@@ -63,10 +63,10 @@ const Login = () => {
         floatingPlaceholder
         onChangeText={(t) => setNumCel(t)}
         enableErrors
-        validate={['required', 'number', (value: string | any[]) => value.length == 10 ]}
+        validate={['required', 'number', (value: string | any[]) => value.length == 13 ]}
         validationMessage={['Campo es requerido', 'Tiene que ser un numero', 'Tiene que ser de 10 digitos']}
         showCharCounter
-        maxLength={10}
+        maxLength={13}
         style={styles.inputs}
       />
       {esperando && 

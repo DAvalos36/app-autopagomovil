@@ -27,8 +27,8 @@ function MyTabs() {
       screenOptions={{drawerPosition: 'right'}}
     >
     {/* cambio TEMPORAL para no tener que iniciar sesion! */}
-    {/* { !loginContext?.sesionIniciada ? ( */}
-    { !true ? (
+    {/* { !true ? ( */}
+    { !loginContext?.sesionIniciada ? (
     <>
       <Drawer.Screen name="Login" component={Login}
         options={{headerShown: false}}
