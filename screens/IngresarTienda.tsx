@@ -1,13 +1,14 @@
 import { StyleSheet } from 'react-native'
-import { Button, Text, Incubator, Colors, Image } from 'react-native-ui-lib'
+import { Colors } from 'react-native-ui-lib'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useState, useContext, useEffect } from 'react'
 import { supabase } from '../supabase'
 import { SvgUri } from 'react-native-svg'
-import { BarCodeScanner, BarCodeScannerResult, requestPermissionsAsync, getPermissionsAsync } from 'expo-barcode-scanner';
+import { BarCodeScannerResult, requestPermissionsAsync } from 'expo-barcode-scanner';
 
 import { TiendaContext } from '../context/TiendaContext'
 import PermisoQR from './PermisoQR'
+import PantallaCamaraQR from './PantallaCamaraQR'
 
 
 const IngresarTienda = () => {
@@ -55,10 +56,7 @@ const IngresarTienda = () => {
   }
 
   if (escanear){
-    return <BarCodeScanner
-    onBarCodeScanned={escaneo}
-    style={StyleSheet.absoluteFillObject}
-  />
+    return <PantallaCamaraQR texto='Escanea el qr de la tienda' contextoEscanear={setEscanear} resultado={escaneo} />
   }
   return (
     <SafeAreaView style={styles.container}>
