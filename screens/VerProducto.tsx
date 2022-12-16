@@ -5,7 +5,6 @@ import React, { useState, useEffect, useContext } from 'react'
 
 import { PantallaVerProductoProps } from '../Navigation/StackVerProducto';
 import { SafeAreaView } from 'react-native-safe-area-context'
-import CartasProducto from '../components/CartasProducto'
 import { COLORES } from '../Colores';
 
 import { ProductoTienda } from '../types';
@@ -22,8 +21,32 @@ const VerProducto = (nav: PantallaVerProductoProps): JSX.Element => {
   const tiendaContext = useContext(TiendaContext)
   const { i } = nav.route.params
 
-  const [cantidad, setCantidad] = useState(tiendaContext?.productos[i].cantidad)
+  const [cantidad, setCantidad] = useState<number | undefined>(undefined)
+
+  useEffect(() => {
+    try{
+      setCantidad(tiendaContext?.productos[i].cantidad)
+    }
+    catch{
+
+    }
+  }, [])
   
+
+  const funcionEliminar = () => {
+    nav.navigation.goBack()
+    tiendaContext?.eliminarProducto(i)
+  }
+
+  const funcionGuardar = () => {
+    let producto = tiendaContext?.productos[i] as ProductoTienda
+    producto.cantidad = cantidad as number
+    tiendaContext?.modificarProducto(producto)
+    nav.navigation.goBack()
+  }
+  if (cantidad === undefined){
+    return <View></View>
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,8 +73,8 @@ const VerProducto = (nav: PantallaVerProductoProps): JSX.Element => {
       </View>
 
       <View>
-        <Button label='Guardar' />
-        <Button label='Eliminar' />
+        <Button label="Guardar" style={{marginBottom: 10}} borderRadius={5} backgroundColor={COLORES.botonPrimario} onPress={ funcionGuardar }  />
+        {/* <Button label="Eliminar"  borderRadius={5} backgroundColor={COLORES.botonSecundario} onPress={ funcionEliminar }  /> */}
       </View>
       {/* </ImageBackground> */}
     </SafeAreaView>

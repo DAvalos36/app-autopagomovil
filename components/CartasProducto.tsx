@@ -1,21 +1,24 @@
 import { StyleSheet, View } from 'react-native'
 import { Text, Image, Badge } from 'react-native-ui-lib'
-import React from 'react'
+import React, {useContext} from 'react'
 import { COLORES } from '../Colores'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 
 import { ProductoTienda } from '../types'
 import { StackVerProductoNavigationProps } from '../Navigation/StackVerProducto'
+import { TiendaContext } from '../context/TiendaContext'
 
 type Props = {}
 
-const CartasProducto = ({item, index, funcionIr}: {item: ProductoTienda, index: number, funcionIr: (i: number) => void}) => {
+const CartasProducto = ({item, index, funcionIr}: {item: ProductoTienda, index: number, funcionIr: (i: number) => void }) => {
   // const navigation = useNavigation<StackVerProductoNavigationProps>()
+  const tiendaContext = useContext(TiendaContext)
+
 
   return (
     <TouchableOpacity >
-      <TouchableOpacity style={styles.container} onPress={() => funcionIr(index) } >
+      <TouchableOpacity style={styles.container} onPress={() => funcionIr(index) } onLongPress={() => tiendaContext?.eliminarProducto(index)} >
         <Text text60>{item.productos_info.nombre}</Text>
         <Image style={styles.imgCar} source={{uri: item.productos_info.link_img}} />
         <Badge label={`$ ${item.precio}`} backgroundColor={COLORES.botonPrimario} />

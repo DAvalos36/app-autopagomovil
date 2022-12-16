@@ -73,8 +73,8 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
 
     if (info.length === 1){
       info[0].cantidad = 1
-      tiendaContext?.insertarProducto(info[0])
-      nv.navigate('VerProducto', {i: info.length - 1})
+      const n = tiendaContext?.insertarProducto(info[0]) as number
+      nv.navigate('VerProducto', {i: n})
     }
     else {
       alert('No se encontro el producto; intente de nuevo')

@@ -14,11 +14,15 @@ export const DataProviderTienda = ({ children }: { children: JSX.Element | JSX.E
     setTiendaId('')
   }
 
-  const insertarProducto = (producto: ProductoTienda) => {
+  const insertarProducto = (producto: ProductoTienda): number => {
     setProductos([...productos, producto])
+    return productos.length
   }
-  const eliminarProducto = (producto: ProductoTienda) => {
-    setProductos(productos.filter((p) => p.productos_info.codigo !== producto.productos_info.codigo))
+  const modificarProducto = (producto: ProductoTienda) => {
+    setProductos(productos.map((p) => p.id === producto.id ? producto : p))
+  }
+  const eliminarProducto = (i: number) => {
+    setProductos(productos.filter((p,index) => index !== i))
   }
 
   const eliminarTodosProductos = () => {
@@ -27,7 +31,7 @@ export const DataProviderTienda = ({ children }: { children: JSX.Element | JSX.E
 
 
   return (
-    <TiendaContext.Provider value={{ productos, insertarProducto, eliminarProducto, setTienda, salirtienda, eliminarTodosProductos, tiendaId }}>
+    <TiendaContext.Provider value={{ productos, insertarProducto, eliminarProducto, setTienda, salirtienda, eliminarTodosProductos, modificarProducto, tiendaId }}>
       {children}
     </TiendaContext.Provider>
   )

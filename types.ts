@@ -21,8 +21,9 @@ export interface TiendaProductosProvider {
     setTienda: (tiendaId: string) => void;
     salirtienda: () => void;
 
-    insertarProducto: (producto: ProductoTienda) => void;
-    eliminarProducto: (producto: ProductoTienda) => void;
+    insertarProducto: (producto: ProductoTienda) => number;
+    modificarProducto: (producto: ProductoTienda) => void;
+    eliminarProducto: (id: number) => void;
 
     eliminarTodosProductos: () => void;
 }
