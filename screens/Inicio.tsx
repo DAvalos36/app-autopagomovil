@@ -139,7 +139,7 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingHorizontal: 20 }}>
           <View style={{flex: 2, paddingHorizontal: 2}}>
             {/* PENDIENTE: agrandar tamaño de texto en botones */}
-            <Button label="Pagar" borderRadius={5} backgroundColor={COLORES.botonPrimario} />
+            <Button label="Pagar" borderRadius={5} backgroundColor={COLORES.botonPrimario} onPress={() => nv.navigate('comprar')} />
           </View>
           <View style={{flex: 1, paddingHorizontal: 3}}>
             <Button label="Cancelar"  borderRadius={5} backgroundColor={COLORES.botonSecundario} onPress={ cancelar }  />
