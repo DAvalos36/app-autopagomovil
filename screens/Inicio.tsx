@@ -4,8 +4,10 @@ import { BarCodeScanner, BarCodeScannerResult, requestPermissionsAsync } from 'e
 import { SvgUri } from 'react-native-svg';
 import React, { useState, useEffect, useContext } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { useNavigation } from '@react-navigation/native';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
+
+import { StackVerProductoNavigationProps } from '../Navigation/StackVerProducto';
 import HeaderInicio from '../components/HeaderInicio';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CartasProducto from '../components/CartasProducto'
@@ -25,6 +27,7 @@ type info = {
 
 
 const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
+  const nv = useNavigation<StackVerProductoNavigationProps>()
   const tiendaContext = useContext(TiendaContext)
 
   const [permiso, setPermiso] = useState(false)
@@ -71,6 +74,7 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
     if (info.length === 1){
       info[0].cantidad = 1
       tiendaContext?.insertarProducto(info[0])
+      nv.navigate('VerProducto', {i: info.length - 1})
     }
     else {
       alert('No se encontro el producto; intente de nuevo')
@@ -95,6 +99,10 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
     void tiendaContext?.setTienda('')
   }
 
+  const irAProducto = (i: number): void => {
+    nv.navigate('VerProducto', {i})
+  }
+
   if(!permiso){
     return <PermisoQR solicitarPermiso={solicitarPermiso} />
   }
@@ -114,7 +122,7 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
           />
         <HeaderInicio navigation={navigation} contextoEscanear={setEscanear}/>
         {/* Aqui Deben De Ir Las Tarjetas De Productos Agregados */}
-        <GridList style={{flex: 1}} listPadding={20} numColumns={2} data={tiendaContext?.productos} renderItem={CartasProducto} />
+        <GridList style={{flex: 1}} listPadding={20} numColumns={2} data={tiendaContext?.productos} renderItem={({item, index}) => <CartasProducto index={index} item={item} funcionIr={irAProducto}/> } />
       </View>
       {/* </ImageBackground> */}
       <View style={{flex: 2}}>
