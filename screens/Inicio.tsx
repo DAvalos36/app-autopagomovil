@@ -1,6 +1,7 @@
 import { StyleSheet, View, ImageBackground } from 'react-native'
 import {Button, GridList, Card, Text} from 'react-native-ui-lib'
 import { BarCodeScanner, BarCodeScannerResult, requestPermissionsAsync } from 'expo-barcode-scanner';
+import { SvgUri } from 'react-native-svg';
 import React, { useState, useEffect, useContext } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -104,11 +105,18 @@ const Inicio = ({navigation}: {navigation: DrawerNavigationProp<any>}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ImageBackground source={require('../assets/bgInicio.png')}  style={{flex:10}}>
+      {/* <ImageBackground source={require('../assets/bgInicio.png')}  style={{flex:10}}> */}
+      <View style={{flex:10}}>
+        <SvgUri uri='https://dthbdxcuhfeitijisuta.supabase.co/storage/v1/object/public/productos/FondoPrincipal.svg'
+          width='100%'
+          height='100%' 
+          style={StyleSheet.absoluteFillObject}
+          />
         <HeaderInicio navigation={navigation} contextoEscanear={setEscanear}/>
         {/* Aqui Deben De Ir Las Tarjetas De Productos Agregados */}
         <GridList style={{flex: 1}} listPadding={20} numColumns={2} data={tiendaContext?.productos} renderItem={CartasProducto} />
-      </ImageBackground>
+      </View>
+      {/* </ImageBackground> */}
       <View style={{flex: 2}}>
         <View style={ styles.contenedorTexto }>
           <View style={{alignItems: 'center'}}>
