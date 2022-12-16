@@ -20,6 +20,17 @@ const Pagar = (): JSX.Element => {
   const logginContext = useContext(LoggingContext)
 
   const [pagado, setPagado] = useState(false)
+  const [total, setTotal] = useState(0)
+  const [idVenta, setIdVenta] = useState(0)
+
+  useEffect(() => {
+    let total = 0
+    tiendaContext?.productos.forEach((producto) => {
+      total += (producto.precio as number) * (producto.cantidad as number)
+    })
+    setTotal(total)
+  }, [])
+  
 
   const funcionPagar = async () => {
     console.log('pagando')
@@ -78,12 +89,15 @@ const Pagar = (): JSX.Element => {
       <View>
         <Image source={require('../assets/LogoInicio.png')} style={{ width: 60, height: 40 }} />
       </View>
-      <Text text50>Los productos se puede pagar por medio</Text>
-      <Button size={ButtonSize.large} label='Pagar con tarjeta' />
-      <Button size={ButtonSize.large} label='Pago en caja' />
+      <View>
+        <Text text50 >Cantidad a pagar:</Text>
+        <Text text50 >${total.toFixed(2)}</Text>
+        <Button disabled={pagado} activeBackgroundColor='black' label="Guardar" style={{ marginBottom: 10 }} borderRadius={5} backgroundColor={COLORES.botonPrimario} onPress={ () => void funcionPagar() } />
+      </View>
+
 
       <View>
-        <Button disabled={pagado} activeBackgroundColor='black' label="Guardar" style={{ marginBottom: 10 }} borderRadius={5} backgroundColor={COLORES.botonPrimario} onPress={ () => void funcionPagar() } />
+        {/* <Button disabled={pagado} activeBackgroundColor='black' label="Guardar" style={{ marginBottom: 10 }} borderRadius={5} backgroundColor={COLORES.botonPrimario} onPress={ () => void funcionPagar() } /> */}
         {/* <Button label="Eliminar"  borderRadius={5} backgroundColor={COLORES.botonSecundario} onPress={ funcionEliminar }  /> */}
       </View>
       {/* </ImageBackground> */}
