@@ -2,6 +2,7 @@ import { StyleSheet, View, ImageBackground } from 'react-native'
 import { Button, Image, Badge, Text, ButtonSize } from 'react-native-ui-lib'
 import { SvgUri } from 'react-native-svg';
 import { supabase } from '../supabase';
+import QRCode from 'react-native-qrcode-svg';
 import React, { useState, useEffect, useContext } from 'react'
 
 import { PantallaVerProductoProps } from '../Navigation/StackVerProducto';
@@ -90,9 +91,18 @@ const Pagar = (): JSX.Element => {
         <Image source={require('../assets/LogoInicio.png')} style={{ width: 60, height: 40 }} />
       </View>
       <View>
+      {!pagado ? (
+        <>
         <Text text50 >Cantidad a pagar:</Text>
         <Text text50 >${total.toFixed(2)}</Text>
         <Button disabled={pagado} activeBackgroundColor='black' label="Guardar" style={{ marginBottom: 10 }} borderRadius={5} backgroundColor={COLORES.botonPrimario} onPress={ () => void funcionPagar() } />
+        </>
+        ) : (
+          <>
+          <Text text50 >Comprobante de pago</Text>
+          <QRCode value={idVenta.toString()} size={250}/>
+          </>
+          )}
       </View>
 
 
