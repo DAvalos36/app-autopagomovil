@@ -7,6 +7,7 @@ import Inicio from './screens/Inicio';
 import Login from './screens/Login';
 import Registro from './screens/Registro';
 import IngresarTienda from './screens/IngresarTienda';
+import {StackVerProducto} from './Navigation/StackVerProducto'
 
 import HeaderInicio from './components/HeaderInicio';
 import { LoggingContext } from './context/LogginContext';
@@ -40,7 +41,7 @@ function MyTabs() {
     ) : (
     <>
       {tiendaContext?.tiendaId != '' ? (
-      <Drawer.Screen name="Home" component={Inicio} 
+      <Drawer.Screen name="Home" component={StackVerProducto} 
         options={{headerShown: false}}
       />
       ) : (
